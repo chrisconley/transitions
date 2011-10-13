@@ -52,6 +52,7 @@ module Transitions
 
         record.current_state(@name, new_state, persist)
         record.send(@events[event].success) if @events[event].success
+        state_index[new_state].call_action(:entered, record)
         true
       else
         if record.respond_to?(event_failed_callback)
